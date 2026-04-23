@@ -24,5 +24,4 @@ jobs:
           testSuitePath: 'Test Suites/TS1'
           executionProfile: 'default'
           browserType: 'Chrome'
-          apiKey: ${{ secrets.KATALON_API_KEY }}
-``
+          apiKey: ${{ secrets.KATALON_API_KEY }
