@@ -37,6 +37,12 @@ jobs:
         with:
           name: katalon-test-reports
           path: Reports/
+          
+      
+      - name: Zip Katalon Reports
+        run: |
+          zip -r katalon-reports.zip Reports
+      
 
       - name: Send Email with Test Report
         uses: dawidd6/action-send-mail@v3
