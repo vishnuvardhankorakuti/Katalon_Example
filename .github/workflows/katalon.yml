@@ -45,9 +45,7 @@ jobs:
           path: Reports/
           
       
-      - name: Zip Katalon Reports
-        run: |
-          zip -r katalon-reports.zip Reports
+  
       
 
       - name: Send Email with Test Report
@@ -68,4 +66,4 @@ jobs:
             GitHub Actions
           to: ${{ secrets.MAIL_TO }}
           from: GitHub Actions <${{ secrets.SMTP_USERNAME }}>
-          attachments: Reports/**/*
+          attachments: Reports/**/*.html
