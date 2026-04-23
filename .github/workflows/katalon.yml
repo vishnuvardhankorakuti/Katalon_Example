@@ -16,28 +16,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Java
-        uses: actions/setup-java@v4
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-
-      - name: Download Katalon Runtime Engine
-        run: |
-          wget https://download.katalon.com/10.0.0/katalon-runtime-engine-10.0.0-linux-x64.tar.gz
-          tar -xzf katalon-runtime-engine-10.0.0-linux-x64.tar.gz
-
       - name: Run Katalon Tests
-        env:
-          KATALON_API_KEY: ${{ secrets.KATALON_API_KEY }}
-        run: |
-          cd katalon-runtime-engine-10.0.0
-          ./katalonc \
-            -noSplash \
-            -runMode=console \
-            -projectPath="$GITHUB_WORKSPACE" \
-            -retry=0 \
-            -testSuitePath="Test Suites/TS1" \
-            -executionProfile="default" \
-            -browserType="Chrome" \
-            -apiKey="$KATALON_API_KEY"
+        uses: katalon-studio/katalon-runner@v1
+        with:
+          version: '10.0.0'
+          projectPath: ${{ github.workspace }}
+          testSuitePath: 'Test Suites/TS1'
+          executionProfile: 'default'
+          browserType: 'Chrome'
+          apiKey: ${{ secrets.KATALON_API_KEY }}
+``
