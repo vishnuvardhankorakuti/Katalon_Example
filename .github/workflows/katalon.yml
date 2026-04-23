@@ -5,7 +5,7 @@ on:
     branches:
       - master
   schedule:
-    - cron: '10 11 * * *'   # 4:40 PM IST
+    - cron: '30 11 * * *'   # Daily at 5:00 PM IST
   workflow_dispatch:
 
 jobs:
