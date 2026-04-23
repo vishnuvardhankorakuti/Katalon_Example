@@ -5,7 +5,7 @@ on:
     branches:
       - master
   schedule:
-    - cron: '0 12 * * *'   # Daily at 5:00 PM IST
+    - cron: '0 12 * * *'   # Daily at 5:30 PM IST
   workflow_dispatch:
 
 jobs:
@@ -15,6 +15,12 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Clear old Katalon Reports
+        run: |
+          echo "Removing old Reports folder if it exists"
+          rm -rf Reports
+          mkdir -p Report
 
       - name: Run Katalon Tests using Docker
         env:
