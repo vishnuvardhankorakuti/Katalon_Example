@@ -1,0 +1,14 @@
+{
+  "brokenTestObjects": [
+    {
+      "approved": true,
+      "testObjectId": "Object Repository/Page_TutorialsPoint_Selenium_Practice/dtp_DateOfBirth",
+      "brokenLocator": "",
+      "brokenLocatorMethod": "IMAGE",
+      "proposedLocator": "#dob",
+      "proposedLocatorMethod": "CSS",
+      "recoveryMethod": "CSS",
+      "pathToScreenshot": "Reports/Self-healing/Object Repository/Page_TutorialsPoint_Selenium_Practice/dtp_DateOfBirth_CSS.png"
+    }
+  ]
+}
