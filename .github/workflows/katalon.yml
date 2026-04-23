@@ -5,7 +5,7 @@ on:
     branches:
       - master
   schedule:
-    - cron: '30 11 * * *'   # Daily at 5:00 PM IST
+    - cron: '0 12 * * *'   # Daily at 5:00 PM IST
   workflow_dispatch:
 
 jobs:
@@ -31,3 +31,29 @@ jobs:
             -executionProfile="default" \
             -browserType="Chrome" \
             -apiKey="$KATALON_API_KEY"
+
+      - name: Upload Katalon Reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: katalon-test-reports
+          path: Reports/
+
+      - name: Send Email with Test Report
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: ${{ secrets.SMTP_SERVER }}
+          server_port: ${{ secrets.SMTP_PORT }}
+          username: ${{ secrets.SMTP_USERNAME }}
+          password: ${{ secrets.SMTP_PASSWORD }}
+          subject: "Katalon Test Execution Report"
+          body: |
+            Hi,
+
+            The Katalon test execution has completed.
+            Please find the attached report.
+
+            Regards,
+            GitHub Actions
+          to: ${{ secrets.MAIL_TO }}
+          from: GitHub Actions <${{ secrets.SMTP_USERNAME }}>
+          attachments: Reports/**/*
