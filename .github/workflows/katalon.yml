@@ -62,6 +62,7 @@ jobs:
             -executionProfile="default" `
             -browserType="Chrome" `
             -apiKey="$env:KATALON_API_KEY"
+            --config -webui.autoUpdateDrivers=true
 
 
 
