@@ -23,8 +23,17 @@ jobs:
             Remove-Item Reports -Recurse -Force
           }
           New-Item -ItemType Directory -Force -Path Reports
+          
+
+      - name: Cache Katalon Runtime Engine
+        uses: actions/cache@v4
+        with:
+          path: katalon
+          key: katalon-engine-10.0.0-windows
+
 
       - name: Download Katalon Runtime Engine
+        if: steps.cache-katalon.outputs.cache-hit != 'true'
         shell: powershell
         run: |
           Invoke-WebRequest `
