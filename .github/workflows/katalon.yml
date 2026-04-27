@@ -10,43 +10,47 @@ on:
 
 jobs:
   katalon-tests:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Clear old Katalon Reports
+        shell: powershell
         run: |
-          echo "Removing old Reports folder if it exists"
-          rm -rf Reports
-          mkdir -p Report
+          if (Test-Path Reports) {
+            Remove-Item Reports -Recurse -Force
+          }
+          New-Item -ItemType Directory -Force -Path Reports
 
-      - name: Run Katalon Tests using Docker
+      - name: Download Katalon Runtime Engine
+        shell: powershell
+        run: |
+          Invoke-WebRequest `
+            -Uri "https://download.katalon.com/10.0.0/Katalon_Studio_Engine_Windows_64-10.0.0.zip" `
+            -OutFile katalon.zip
+          Expand-Archive katalon.zip -DestinationPath katalon
+
+      - name: Run Katalon Tests
+        shell: powershell
         env:
           KATALON_API_KEY: ${{ secrets.KATALON_API_KEY }}
         run: |
-          docker run --rm \
-            -v "$GITHUB_WORKSPACE:/katalon/project" \
-            katalonstudio/katalon:10.0.0 \
-            katalonc.sh \
-            -noSplash \
-            -runMode=console \
-            -projectPath=/katalon/project \
-            -testSuitePath="Test Suites/TS1" \
-            -executionProfile="default" \
-            -browserType="Chrome" \
-            -apiKey="$KATALON_API_KEY"
+          .\katalon\Katalon_Studio_Engine_Windows_64-10.0.0\katalonc.bat ^
+            -noSplash ^
+            -runMode=console ^
+            -projectPath="%GITHUB_WORKSPACE%" ^
+            -testSuitePath="Test Suites/TS1" ^
+            -executionProfile="default" ^
+            -browserType="Chrome" ^
+            -apiKey="%KATALON_API_KEY%"
 
       - name: Upload Katalon Reports
         uses: actions/upload-artifact@v4
         with:
           name: katalon-test-reports
           path: Reports/
-          
-      
-  
-      
 
       - name: Send Email with Test Report
         uses: dawidd6/action-send-mail@v3
