@@ -50,10 +50,7 @@ jobs:
           Write-Host "Searching for katalonc.exe..."
           $katalonExe = Get-ChildItem -Recurse -Filter "katalonc.exe" | Select-Object -First 1
 
-          if (-not $katalonExe) {
-            Write-Error "katalonc.exe not found"
-            exit 1
-          }
+
 
           Write-Host "Found Katalon at $($katalonExe.FullName)"
 

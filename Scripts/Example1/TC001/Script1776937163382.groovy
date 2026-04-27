@@ -9,9 +9,9 @@ String name = 'Vishnu'
 String email = 'Vishnu@gmail.com'
 String dob = '20-05-1999' // dd-MM-yyyy
 
-WebUI.openBrowser('')
+WebUI.openBrowser('https://www.tutorialspoint.com/selenium/practice/selenium_automation_practice.php')
 WebUI.maximizeWindow()
-WebUI.navigateToUrl(url)
+
 
 // Name
 WebUI.waitForElementVisible(findTestObject('Object Repository/Page_TutorialsPoint_Selenium_Practice/txt_Name'), 20)
