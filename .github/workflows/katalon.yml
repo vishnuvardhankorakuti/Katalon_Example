@@ -41,32 +41,29 @@ jobs:
             -OutFile katalon.zip
           Expand-Archive katalon.zip -DestinationPath katalon
 
-- name: Run Katalon Tests
-  shell: powershell
-  env:
-    KATALON_API_KEY: ${{ secrets.KATALON_API_KEY }}
-  run: |
-    Write-Host "Searching for katalonc.exe..."
-    $katalonExe = Get-ChildItem -Recurse -Filter "katalonc.exe" | Select-Object -First 1
-
-    if (-not $katalonExe) {
-      Write-Error "katalonc.exe not found after extraction"
-      exit 1
-    }
-
-    Write-Host "Found Katalon at $($katalonExe.FullName)"
-
-    & $katalonExe.FullName `
-      -noSplash `
-      -runMode=console `
-      -projectPath="$env:GITHUB_WORKSPACE" `
-      -testSuitePath="Test Suites/TS1" `
-      -executionProfile="default" `
-      -browserType="Chrome" `
-      -apiKey="$env:KATALON_API_KEY"
+      - name: Run Katalon Tests
+        shell: powershell
+        env:
+          KATALON_API_KEY: ${{ secrets.KATALON_API_KEY }}
+        run: |
           
-          
+			Write-Host "Searching for katalonc.exe..."
+    		$katalonExe = Get-ChildItem -Recurse -Filter "katalonc.exe" | Select-Object -First 1
 
+    		if (-not $katalonExe) {
+      		Write-Error "katalonc.exe not found after extraction"
+      		exit 1
+    			}
+
+    		Write-Host "Found Katalon at $($katalonExe.FullName)"
+
+            -noSplash ^
+            -runMode=console ^
+            -projectPath="%GITHUB_WORKSPACE%" ^
+            -testSuitePath="Test Suites/TS1" ^
+            -executionProfile="default" ^
+            -browserType="Chrome" ^
+            -apiKey="%KATALON_API_KEY%"
 
       - name: Upload Katalon Reports
         uses: actions/upload-artifact@v4
